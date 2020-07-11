@@ -69300,5 +69300,5 @@ video {
 }
 
 #menu-toggle:checked + #menu {
-  display: block;
+    display: block;
 }
