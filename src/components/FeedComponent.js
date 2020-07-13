@@ -26,7 +26,7 @@ const FeedComponent = () => {
                   {comment.message} - <span className="font-bold">{comment.author}</span>
                 </li>
               )}
-              <input class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" type="comment" placeholder="Add comment"/>
+              <input className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" type="comment" placeholder="Add comment"/>
           </ul>
           </div>
         </div>
