@@ -3,8 +3,7 @@ import CommentSection from './CommentSection'
 import postsService from '../services/posts'
 const baseUrl = 'http://localhost:3001/'
 
-const FeedComponent = () => {
-    const [allPosts , setAllPost] = useState([])
+const FeedComponent = ({allPosts}) => {
     const [user, setUser] = useState(null)
     
     useEffect(() => {
@@ -16,11 +15,7 @@ const FeedComponent = () => {
       }
     }, [])
 
-    useEffect(() => {
-      postsService.getAll().then(posts => {
-          setAllPost(posts)
-      })
-      }, [])
+
 
     const handleCommentsInput = (postId, post) => {
       if(!user){
@@ -33,10 +28,9 @@ const FeedComponent = () => {
       }
       return <CommentSection id={postId}></CommentSection>
     }
-
     return (
         allPosts.map(post => 
-        <div key={post.id} className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 mt-4 mb-5 bg-indigo-100">
+        <div key={post.id} className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
           <h2 className="text-3xl px-2 font-bold">{post.title}</h2>
           <p className="px-2 py-2">{post.id}</p>
           <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5"></img>

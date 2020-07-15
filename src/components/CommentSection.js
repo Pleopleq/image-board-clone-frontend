@@ -9,7 +9,6 @@ const CommentSection = ({id}) => {
     const [failNotification, setFail] = useState(null)
     const [user, setUser] = useState(null)
     let postId = id
-    console.log(postId)
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         if(loggedUserJSON) {
@@ -52,7 +51,7 @@ const CommentSection = ({id}) => {
         <>
         <ul className="px-4 divide-y divide-gray-400">
         {allComments.map((comment, index) => 
-          <li key={index} className="bg-indigo-100font-light text-gray-700 py-2">
+          <li key={index} className="bg-indigo-100 font-light text-gray-700 py-2">
             {comment.message} - <span className="font-bold">{comment.author}</span>
           </li>
         )}
@@ -61,7 +60,6 @@ const CommentSection = ({id}) => {
         <form className="m-2" onSubmit={handleCommentSubmit}>     
             <input 
             className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" 
-            id="message"
             type="text" 
             placeholder="Add comment"
             name="message"

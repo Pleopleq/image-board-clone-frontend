@@ -7,6 +7,14 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
+const createPost = async post => {
+    const request = await axios.post(baseUrlPosts, post, {
+        headers: {
+          'Authorization': token
+        }
+      })
+    return request.data
+}
 
 const getAll = async () => {
     const request = await axios.get(baseUrlPosts)
@@ -22,5 +30,6 @@ const getOne = async id => {
 export default {
     getAll,
     getOne,
+    createPost,
     setToken
 }
