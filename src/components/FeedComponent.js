@@ -28,12 +28,20 @@ const FeedComponent = ({allPosts}) => {
       }
       return <CommentSection id={postId}></CommentSection>
     }
+
+    const handlePostWithoutImage = (post) => {
+      if(post.postImage === undefined){
+        return null
+      }
+      return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5"></img>
+    }
+
     return (
         allPosts.map(post => 
         <div key={post.id} className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
           <h2 className="text-3xl px-2 font-bold">{post.title}</h2>
           <p className="px-2 py-2">{post.id}</p>
-          <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5"></img>
+          {handlePostWithoutImage(post)}
           <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Author: {post.author}</p>
           <p className="py-3 px-5 break-words">{post.content}</p>
           <div>

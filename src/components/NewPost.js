@@ -22,22 +22,18 @@ const NewPost = ({allPosts}) => {
         setImage(e.target.files[0])
     }
 
-    const onUploadHandler = () => {
-        const data = new FormData() 
-        data.append('file', image)
-    }
-
     const handleNewPost = async (e) => {
         e.preventDefault()
         try {
-            const newPost = {
-                title: title,
-                content: content,
-                postImage: image
-            }
+            const data = new FormData() 
+            data.append('postImage', image)
+            data.append('title', title)
+            data.append('content', content)
+            const newPost = data
             const addedPost = await postsService.createPost(newPost)
             setTitle('')
             setContent('')
+            allPosts.concat(addedPost)
         } catch (error) {
             console.log(error)
         }
@@ -86,16 +82,9 @@ const NewPost = ({allPosts}) => {
                 </label>
                 
             </div>
-            <button 
-            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-            type="button"
-            onClick={onUploadHandler}
-            >
-                Button
-            </button>
             <div className="flex items-center justify-center mt-8">
             <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Submit post!
+                Submit post 
             </button>
             </div>
         </form>
