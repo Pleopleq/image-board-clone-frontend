@@ -31,7 +31,7 @@ const FeedComponent = ({allPosts}) => {
 
     const handlePostWithoutImage = (post) => {
       if(post.postImage === undefined){
-        return null
+        return <br/>
       }
       return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5"></img>
     }

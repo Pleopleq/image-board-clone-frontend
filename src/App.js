@@ -10,21 +10,33 @@ import NewPost from './components/NewPost'
 const App = () => {
   const [allPosts , setAllPost] = useState([])
 
+  const fetchingPosts = async () => {
+    const result = await postsService.getAll()
+    setAllPost(result.reverse())
+  }
+
+  const handleNewPostAdded = (addedPost) => {
+    const copyOfAllPosts = [addedPost, ...allPosts]
+    setAllPost(copyOfAllPosts)
+  }
+
   useEffect(() => {
-    postsService.getAll().then(posts => {
-        setAllPost(posts)
-    })
-  }, [])
-  
+      fetchingPosts()
+    }, [])
+
   const FeedComponentWrapper = () => {
-    return <FeedComponent allPosts={allPosts.reverse()}></FeedComponent>
+    return( 
+    <>
+    <NewPost allPosts={handleNewPostAdded}></NewPost>
+    <FeedComponent allPosts={allPosts}></FeedComponent>
+    </>
+    )
   }
 
   return (
     <Router>
     <div className="App">
-        <Navbar ></Navbar>
-        <NewPost></NewPost>
+        <Navbar></Navbar> 
         <Switch>
         <Route path="/" exact component={FeedComponentWrapper}/>
         <Route path="/login" component={Login}/>

@@ -9,6 +9,7 @@ const CommentSection = ({id}) => {
     const [failNotification, setFail] = useState(null)
     const [user, setUser] = useState(null)
     let postId = id
+
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         if(loggedUserJSON) {
@@ -22,7 +23,7 @@ const CommentSection = ({id}) => {
         commentService.getAll(postId).then(posts => {
             setAllComments(posts)
         })
-    }, [])
+    }, [postId])
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault()

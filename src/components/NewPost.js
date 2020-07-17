@@ -33,7 +33,7 @@ const NewPost = ({allPosts}) => {
             const addedPost = await postsService.createPost(newPost)
             setTitle('')
             setContent('')
-            allPosts.concat(addedPost)
+            allPosts(addedPost)
         } catch (error) {
             console.log(error)
         }
