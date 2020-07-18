@@ -36,9 +36,9 @@ const CommentSection = ({id}) => {
                 }, 3000);
                 return
             } else {
-            commentService.newComment(id, newComment)
+            const comment = await commentService.newComment(id, newComment)
             setMessage(' ')
-            setAllComments(allComments.concat(newComment))
+            setAllComments(allComments.concat(comment))
             }
         } catch (error) {
             setFail('Something went wrong')
@@ -50,7 +50,7 @@ const CommentSection = ({id}) => {
 
     return (
         <>
-        <ul className="px-4 divide-y divide-gray-400">
+        <ul className="px-4 divide-y divide-gray-400 list-none">
         {allComments.map((comment, index) => 
           <li key={index} className="bg-indigo-100 font-light text-gray-700 py-2">
             {comment.message} - <span className="font-bold">{comment.author}</span>

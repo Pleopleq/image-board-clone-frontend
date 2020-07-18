@@ -28,7 +28,7 @@ const App = () => {
     return( 
     <>
     <NewPost allPosts={handleNewPostAdded}></NewPost>
-    <FeedComponent allPosts={allPosts}></FeedComponent>
+    <FeedComponent allPosts={allPosts} deletedPost={fetchingPosts}></FeedComponent>
     </>
     )
   }
