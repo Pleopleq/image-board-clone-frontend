@@ -3,7 +3,7 @@ import CommentSection from './CommentSection'
 import postsService from '../services/posts'
 const baseUrl = 'http://localhost:3001/'
 
-const FeedComponent = ({allPosts, deletedPost}) => {
+const FeedComponent = ({allPosts, deletedPost, success}) => {
     const [user, setUser] = useState(null)
     const handleDeletedPost = deletedPost
     
@@ -17,8 +17,19 @@ const FeedComponent = ({allPosts, deletedPost}) => {
     }, [])
 
     const handleDeletePost = async (id) => {
-      await postsService.deletePost(id)
-      handleDeletedPost()
+      const result = window.confirm('Do you really want to delete this post?')
+
+      if(result){
+        const resultAsync = Promise.all(
+          await postsService.deletePost(id),
+          await handleDeletedPost()
+        )
+        
+        if(resultAsync){
+          success('Post has been deleted.', "flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3 mx-24 rounded") 
+        }
+      }
+      return
     }
 
     const handleShowButtons = (post) => {
@@ -47,9 +58,8 @@ const FeedComponent = ({allPosts, deletedPost}) => {
     const handleCommentsInput = (postId, post) => {
       if(!user){
         return (
-          
           post.replies.map((comment, index) => 
-          <ul className="px-4 divide-y divide-gray-400">
+          <ul  key={index} className="px-4 divide-y divide-gray-400">
             <li key={index} className="bg-indigo-100 font-light text-gray-700 py-2">
               {comment.message} - <span className="font-bold">{comment.author}</span>
             </li>
@@ -59,7 +69,7 @@ const FeedComponent = ({allPosts, deletedPost}) => {
       return <CommentSection id={postId}></CommentSection>
     }
 
-    return (
+    return ( 
         allPosts.map(post => 
         <div key={post.id} className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
           <h2 className="text-3xl px-2 font-bold">{post.title}</h2>
