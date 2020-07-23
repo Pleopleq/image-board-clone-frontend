@@ -53,7 +53,7 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
       if(post.postImage === undefined){
         return <br/>
       }
-      return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5"></img>
+      return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
     }
 
     const handleCommentsInput = (postId, post) => {

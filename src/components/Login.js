@@ -8,7 +8,6 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [failNotification, setFail] = useState(null)
   const [toHome, setToHome] = useState(false)
-  const [user, setUser] = useState(null)
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -18,7 +17,6 @@ const Login = () => {
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(user)
       )
-      setUser(user)
       setUsername('')
       setPassword('')
       setToHome(true)

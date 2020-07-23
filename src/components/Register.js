@@ -8,7 +8,6 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [failNotification, setFail] = useState(null)
   const [toHome, setToHome] = useState(false)
-  const [user, setUser] = useState(null)
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -18,7 +17,6 @@ const Register = () => {
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(newUser))
 
-      setUser(newUser)
       setUsername('')
       setPassword('')
       setToHome(true)

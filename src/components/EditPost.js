@@ -16,7 +16,7 @@ const EditPost = ({ updateFeed }) => {
         updateFeed(result.reverse())
     }    
 
-    const fetchinOnePost = async () => {
+    const fetchingOnePost = async () => {
         try {
             const result = await postsService.getOne(id)
             delete result.postImage
@@ -46,9 +46,17 @@ const EditPost = ({ updateFeed }) => {
             }, 3000);
         }
     }
+
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedUser')
+        if(loggedUserJSON) {
+          const user = JSON.parse(loggedUserJSON)
+          postsService.setToken(user.token)
+        }
+      }, [])
     
     useEffect(() => {
-        fetchinOnePost()
+        fetchingOnePost()
     }, [])
 
     return (       
