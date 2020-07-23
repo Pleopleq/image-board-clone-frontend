@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import CommentSection from './CommentSection'
 import postsService from '../services/posts'
+import { Link } from 'react-router-dom'
 const baseUrl = 'http://localhost:3001/'
 
 const FeedComponent = ({allPosts, deletedPost, success}) => {
     const [user, setUser] = useState(null)
     const handleDeletedPost = deletedPost
+
     
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -18,7 +20,6 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
 
     const handleDeletePost = async (id) => {
       const result = window.confirm('Do you really want to delete this post?')
-
       if(result){
         const resultAsync = Promise.all(
           await postsService.deletePost(id),
@@ -42,8 +43,8 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
 
       return (
           <>
-          <button className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2" onClick={handleDeletePost.bind(this,post.id)}>Delete</button>
-          <button className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2" onClick={() => console.log('EDIT')}>Edit</button>
+          <button className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2" onClick={handleDeletePost.bind(this, post.id)}>Delete</button>
+          <Link to={'/edit/'+post.id}><button className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2">Edit</button></Link>
           </>
       )
     } 

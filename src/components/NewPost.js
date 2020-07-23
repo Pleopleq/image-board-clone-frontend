@@ -51,12 +51,12 @@ const NewPost = ({allPosts}) => {
                 Title
             </label>
             <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="title" 
-            type="text" 
-            placeholder="Title"
-            value={title}
-            onChange={({target}) => setTitle(target.value)}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                id="title" 
+                type="text" 
+                placeholder="Title"
+                value={title}
+                onChange={({target}) => setTitle(target.value)}
             />
             </div>
             <div className="mb-6">
@@ -64,12 +64,12 @@ const NewPost = ({allPosts}) => {
                 Content
             </label>
             <textarea 
-            className="resize-none border w-full h-20 rounded focus:outline-none focus:shadow-outline py-2 px-3" 
-            id="content" 
-            type="text" 
-            placeholder="Content"
-            value={content}
-            onChange={({target}) => setContent(target.value)}
+                className="resize-none border w-full h-20 rounded focus:outline-none focus:shadow-outline py-2 px-3" 
+                id="content" 
+                type="text" 
+                placeholder="Content"
+                value={content}
+                onChange={({target}) => setContent(target.value)}
             ></textarea>
             </div>
             <div className="flex w-full h-auto items-center justify-center bg-grey-lighter">

@@ -7,6 +7,7 @@ import Register from './components/Register'
 import FeedComponent from './components/FeedComponent'
 import Navbar from './components/Navbar'
 import NewPost from './components/NewPost'
+import EditPost from './components/EditPost'
 
 const App = () => {
   const [allPosts , setAllPost] = useState([])
@@ -16,7 +17,7 @@ const App = () => {
   const fetchingPosts = async () => {
     const result = await postsService.getAll()
     setAllPost(result.reverse())
-  }
+  }    
 
   const handleNewPostAdded = (addedPost) => {
     const copyOfAllPosts = [addedPost, ...allPosts]
@@ -46,14 +47,19 @@ const App = () => {
     )
   }
 
+  const EditPostWrapper = () => {
+    return <EditPost updateFeed={setAllPost}></EditPost>
+  }
+
   return (
     <Router>
     <div className="App">
         <Navbar></Navbar>
         <Switch>
-        <Route path="/" exact component={FeedComponentWrapper}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/register" component={Register}/>
+          <Route path="/" exact component={FeedComponentWrapper}/>
+          <Route path="/edit/:id" component={EditPostWrapper}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/register" component={Register}/>
         </Switch>
     </div>
     </Router>

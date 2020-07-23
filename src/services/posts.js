@@ -25,6 +25,15 @@ const deletePost = async id => {
     return request.data
 }
 
+const update = async (id, updatedPost) => {
+  const request = await axios.put(baseUrlPosts+id, updatedPost, {
+    headers: {
+      'Authorization': token
+    }
+  })
+  return request.data
+}
+
 const getAll = async () => {
     const request = await axios.get(baseUrlPosts)
     return request.data
@@ -41,5 +50,6 @@ export default {
     getOne,
     createPost,
     deletePost,
+    update,
     setToken
 }
