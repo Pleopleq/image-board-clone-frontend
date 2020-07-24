@@ -21,4 +21,18 @@ const newComment = async (id, message) => {
     return response.data
 }
 
-export default { newComment, setToken, getAll }
+const deleteComment = async id => {
+    const response = await axios.delete(baseUrlComments+id, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    return response.data
+}
+
+export default { 
+  setToken, 
+  newComment,
+  deleteComment,
+  getAll 
+}

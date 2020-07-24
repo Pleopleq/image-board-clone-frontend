@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import heart from '../assets/corazon.svg'
 import CommentSection from './CommentSection'
 import postsService from '../services/posts'
 import { Link } from 'react-router-dom'
@@ -43,8 +44,8 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
 
       return (
           <>
-          <button className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2" onClick={handleDeletePost.bind(this, post.id)}>Delete</button>
-          <Link to={'/edit/'+post.id}><button className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2">Edit</button></Link>
+          <button className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 " onClick={handleDeletePost.bind(this, post.id)}>Delete</button>
+          <Link to={'/edit/'+post.id}><button className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 ">Edit</button></Link>
           </>
       )
     } 
@@ -78,7 +79,12 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
           {handlePostWithoutImage(post)}
           <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Author: {post.author}</p>
           <p className="py-3 px-5 break-words">{post.content}</p>
-          <div className="m-3">
+
+          <div className="flex items-end justify-around m-3">
+              <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 sm: mr-24 border border-red-500 hover:border-transparent rounded">
+              <img className="w-6" src={heart} alt="Heart from like button"></img>
+              <span>{post.likes}</span>
+              </button>
           {handleShowButtons(post)}
           </div>
           <div>

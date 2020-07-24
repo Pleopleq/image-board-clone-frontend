@@ -3,7 +3,7 @@ import Notification from './Notification'
 import commentService from '../services/comments'
 
 
-const CommentSection = ({id}) => {
+const CommentSection = ({ id }) => {
     const [allComments , setAllComments] = useState([])
     const [message, setMessage] = useState('')
     const [failNotification, setFail] = useState(null)
@@ -48,6 +48,15 @@ const CommentSection = ({id}) => {
         }
     }
 
+    const handleDeleteComment = async (id) => {
+      const result = window.confirm('Do you really want to delete this post?')
+      if(result){
+          await commentService.deleteComment(id) 
+          setAllComments(await commentService.getAll(postId))
+      }
+      return
+    }
+
 
     const handleShowCommentButtons = (comment) => {
         const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
@@ -58,7 +67,10 @@ const CommentSection = ({id}) => {
         }
         return (
             <>
-            <span className="px-6 text-sm"> <a className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600 mx-2" href='#'>Delete</a> <a className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600"  href='#'>Edit</a> </span>
+            <span className="px-6 text-sm"> 
+              <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600 mx-2" onClick={handleDeleteComment.bind(this, comment.id)}>Delete</span> 
+              <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600"  onClick={() => console.log('edit')}>Edit</span> 
+            </span>
             </>
         )
       } 
