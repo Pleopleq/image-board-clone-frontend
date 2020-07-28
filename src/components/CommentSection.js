@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Notification from './Notification'
+import CommentInput from './CommentInput'
 import commentService from '../services/comments'
 
 
@@ -8,7 +9,11 @@ const CommentSection = ({ id }) => {
     const [message, setMessage] = useState('')
     const [failNotification, setFail] = useState(null)
     const [user, setUser] = useState(null)
+    const [messageToUpdate, setMessageToUpdate] = useState(null)
+    const [selectedComment, setSelectedComment] = useState(null)
+    const [isUpdate, setIsUpdate] = useState(false)
     let postId = id
+
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -26,35 +31,60 @@ const CommentSection = ({ id }) => {
     }, [postId])
 
     const handleCommentSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const newComment = { message: message, author: user.username}
-            if(newComment.message === '' || newComment.message.length < 4){
-                setFail('Comment needs to be at least 4 character long')
-                setTimeout(() => {
-                    setFail(null)
-                }, 3000);
-                return
-            } else {
-            const comment = await commentService.newComment(id, newComment)
-            setMessage(' ')
-            setAllComments(allComments.concat(comment))
-            }
-        } catch (error) {
-            setFail('Something went wrong')
-            setTimeout(() => {
-                setFail(null)
-            }, 3000);
+      e.preventDefault()
+      try {
+          const newComment = { message: message, author: user.username}
+          if(newComment.message === '' || newComment.message.length < 4){
+              setFail('Comment needs to be at least 4 character long')
+              setTimeout(() => {
+                  setFail(null)
+              }, 3000);
+              return
+          } else {
+          const comment = await commentService.newComment(id, newComment)
+          setMessage(' ')
+          setAllComments(allComments.concat(comment))
+          }
+      } catch (error) {
+          setFail('Something went wrong')
+          setTimeout(() => {
+              setFail(null)
+          }, 3000);
+      }
+  }
+
+  const handleCommentUpdateSubmit = async (e) => {
+    e.preventDefault()
+      try {
+        await commentService.update(selectedComment.id, { message: messageToUpdate })
+        setAllComments(await commentService.getAll(postId))
+        setIsUpdate(false)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+
+    const handleDeleteCommentSubmit = async (id) => {
+      try {
+        const result = window.confirm('Do you really want to delete this post?')
+        if(result){
+            await commentService.deleteComment(id) 
+            setAllComments(await commentService.getAll(postId))
         }
+        return
+      } catch (error) {
+        console.error(error)
+      }
     }
 
-    const handleDeleteComment = async (id) => {
-      const result = window.confirm('Do you really want to delete this post?')
-      if(result){
-          await commentService.deleteComment(id) 
-          setAllComments(await commentService.getAll(postId))
+    const handleUpdateComment = comment => {
+      if(isUpdate){
+        return setIsUpdate(false)
       }
-      return
+      setIsUpdate(true)
+      setSelectedComment(comment)
+      setMessageToUpdate(comment.message)
     }
 
 
@@ -65,16 +95,16 @@ const CommentSection = ({ id }) => {
         } else if(loggedUser.username !== comment.author){
           return null
         }
-        return (
-            <>
-            <span className="px-6 text-sm"> 
-              <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600 mx-2" onClick={handleDeleteComment.bind(this, comment.id)}>Delete</span> 
-              <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600"  onClick={() => console.log('edit')}>Edit</span> 
-            </span>
-            </>
-        )
-      } 
-
+      return (
+          <>
+          <span className="px-6 text-sm"> 
+            <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600 mx-2" onClick={handleDeleteCommentSubmit.bind(this, comment.id)}>Delete</span> 
+            <span className="hover:text-indigo-300 hover:border-indigo-600 border-b border-gray-600"  onClick={handleUpdateComment.bind(this, comment)}>Edit</span> 
+          </span>
+          </>
+      )
+    }
+      
     return (
         <>
         <ul className="px-4 divide-y divide-gray-400 list-none">
@@ -85,16 +115,16 @@ const CommentSection = ({ id }) => {
         )}
         </ul>
             <Notification message={failNotification} className={"bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-2"}></Notification>
-        <form className="m-2" onSubmit={handleCommentSubmit}>     
-            <input 
-            className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" 
-            type="text" 
-            placeholder="Add comment"
-            name="message"
-            value={message}
-            onChange={({target}) => setMessage(target.value)}
-            />
-        </form>
+            <CommentInput 
+            isUpdate={isUpdate}
+            onSubmitNew={handleCommentSubmit} 
+            onSubmitUpdate={handleCommentUpdateSubmit} 
+            newCommentValue={message} 
+            commentUpdateValue={messageToUpdate}
+            setMessage={setMessage} 
+            setMessageToUpdate={setMessageToUpdate}
+            >
+            </CommentInput>
         </>
     )
 }

@@ -30,9 +30,19 @@ const deleteComment = async id => {
     return response.data
 }
 
+const update = async (id, updatedComment) => {
+  const response = await axios.put(baseUrlComments+id, updatedComment, {
+    headers: {
+      'Authorization': token
+    }
+  })
+  return response.data
+}
+
 export default { 
   setToken, 
   newComment,
   deleteComment,
+  update,
   getAll 
 }
