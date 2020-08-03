@@ -5,6 +5,35 @@ import postsService from '../services/posts'
 import { Link } from 'react-router-dom'
 const baseUrl = 'http://localhost:3001/'
 
+const LikeButton = ({post}) => {
+  const [likes, setLikes] = useState(0)
+  
+  useEffect(() => {
+    setLikes(post.likes) 
+  }, [post])
+
+  const handleLikeButton = async (id) => {
+    try {
+      const likedPost = await postsService.getOne(id)
+      ++likedPost.likes
+      await postsService.likeAPost(id, likedPost)
+      setLikes(likedPost.likes)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return(
+    <button
+    onClick={handleLikeButton.bind(this, post.id)}
+    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 sm: mr-24 border border-red-500 hover:border-transparent rounded"
+    >
+    <img className="w-6" src={heart} alt="Heart from like button"></img>
+    <span>{likes}</span>
+    </button>
+  )
+}
+
 const FeedComponent = ({allPosts, deletedPost, success}) => {
     const [user, setUser] = useState(null)
     const handleDeletedPost = deletedPost
@@ -81,10 +110,7 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
           <p className="py-3 px-5 break-words">{post.content}</p>
 
           <div className="flex items-end justify-around m-3">
-              <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 sm: mr-24 border border-red-500 hover:border-transparent rounded">
-              <img className="w-6" src={heart} alt="Heart from like button"></img>
-              <span>{post.likes}</span>
-              </button>
+          <LikeButton post={post}></LikeButton>
           {handleShowButtons(post)}
           </div>
           <div>

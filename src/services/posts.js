@@ -1,5 +1,6 @@
 import axios from 'axios'
 const baseUrlPosts = 'http://localhost:3001/api/posts/'
+const baseUrlLikePost = 'http://localhost:3001/api/posts/likes/'
 
 let token = null
 
@@ -34,6 +35,15 @@ const update = async (id, updatedPost) => {
   return request.data
 }
 
+const likeAPost = async (id, likedPost) => {
+  const request = await axios.put(baseUrlLikePost+id, likedPost, {
+    headers: {
+      'Authorization': token
+    }
+  })
+  return request.data
+}
+
 const getAll = async () => {
     const request = await axios.get(baseUrlPosts)
     return request.data
@@ -51,5 +61,6 @@ export default {
     createPost,
     deletePost,
     update,
+    likeAPost,
     setToken
 }
