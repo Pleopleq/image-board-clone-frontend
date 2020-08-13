@@ -5,6 +5,7 @@ import Notification from './components/Notification'
 import Login from './components/Login'
 import Register from './components/Register'
 import FeedComponent from './components/FeedComponent'
+import MostLiked from './components/MostLiked'
 import Navbar from './components/Navbar'
 import NewPost from './components/NewPost'
 import EditPost from './components/EditPost'
@@ -37,6 +38,10 @@ const App = () => {
       fetchingPosts()
     }, [])
 
+  const MostLikedWrapper = () => {
+    return <MostLiked posts={allPosts}></MostLiked>
+  }
+
   const FeedComponentWrapper = () => {
     return( 
     <>
@@ -57,6 +62,7 @@ const App = () => {
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={FeedComponentWrapper}/>
+          <Route path="/mostliked" component={MostLikedWrapper}/>
           <Route path="/edit/:id" component={EditPostWrapper}/>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>

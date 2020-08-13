@@ -10,7 +10,7 @@ const handleLogOut = () => {
 const UserGreeting = ({ user }) => {
   return (
     <>
-    <li>Hello, <strong>{user.username}</strong>!</li>
+    <li className="lg:p-4 py-3 px-0 block border-b-2 border-transparent">Hello, <strong>{user.username}</strong>!</li>
     <li className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-500" onClick={handleLogOut}>Log Out</li>
     </>
   )
@@ -53,6 +53,7 @@ const Navbar = () => {
         <div className="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
           <nav>
             <ul className="lg:flex items-center justify-between text-base text-gray-700 pt-4 lg:pt-0">
+            <li><Link className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-500 lg:mb-0 mb-2" to='/mostliked'>Most Liked</Link></li>
             <li><Link className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-500 lg:mb-0 mb-2" to='/'>Feed</Link></li>
               <Greeting isLogin={handleGreeting()} username={user}></Greeting>
             </ul>
