@@ -24,13 +24,15 @@ const LikeButton = ({post}) => {
   }
 
   return(
+    <div className="content-between">
     <button
     onClick={handleLikeButton.bind(this, post.id)}
-    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 sm: mr-24 border border-red-500 hover:border-transparent rounded"
+    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded"
     >
     <img className="w-6" src={heart} alt="Heart from like button"></img>
     <span>{likes}</span>
     </button>
+    </div>
   )
 }
 
@@ -72,10 +74,10 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
       }
 
       return (
-          <>
-          <button className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 " onClick={handleDeletePost.bind(this, post.id)}>Delete</button>
+          <div className="ml-auto">
+          <button className="inline-block bg-red-200 rounded-full px-3 py-1 mr-2 text-sm font-semibold text-red-700 " onClick={handleDeletePost.bind(this, post.id)}>Delete</button>
           <Link to={'/edit/'+post.id}><button className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 ">Edit</button></Link>
-          </>
+          </div>
       )
     } 
 
@@ -109,7 +111,7 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
           <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Author: {post.author}</p>
           <p className="py-3 px-5 break-words">{post.content}</p>
 
-          <div className="flex items-end justify-around m-3">
+          <div className="flex items-end m-3">
           <LikeButton post={post}></LikeButton>
           {handleShowButtons(post)}
           </div>
