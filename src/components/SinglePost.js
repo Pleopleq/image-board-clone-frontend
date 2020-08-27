@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react'
+import postsService from '../services/posts'
 import LikeButton from './LikeButton'
 import CommentSection from './CommentSection'
-import postsService from '../services/posts'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from "react-router-dom";
 const baseUrl = 'http://localhost:3001/'
 
-const FeedComponent = ({allPosts, deletedPost, success}) => {
+
+const SinglePost = () => {
+    const [post, setPost] = useState([])
+    const { id } = useParams()
     const [user, setUser] = useState(null)
-    const handleDeletedPost = deletedPost
+
+    const fetchingPost = async () => {
+        const result = await postsService.getOne(id)
+        setPost(result)
+      }
+
+    useEffect(() => {
+        fetchingPost()
+    }, [])
+
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -23,11 +35,12 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
       if(result){
         const resultAsync = Promise.all(
           await postsService.deletePost(id),
-          await handleDeletedPost()
+          /* await handleDeletedPost() */
         )
         
         if(resultAsync){
-          success('Post has been deleted.', "flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3 mx-24 rounded") 
+/*           success('Post has been deleted.', "flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3 mx-24 rounded") 
+ */          console.log('adsfasdf')
         }
       }
       return
@@ -57,6 +70,8 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
     }
 
     const handleCommentsInput = (postId, post) => {
+        console.log(post)
+        console.log(postId)
       if(!user){
         return (
           post.replies.map((comment, index) => 
@@ -66,15 +81,15 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
             </li>
           </ul>
           ))
+      } else {
+        return <CommentSection id={postId}></CommentSection>
       }
-      return <CommentSection id={postId}></CommentSection>
     }
-
-    return ( 
-        allPosts.map(post => 
-        <div key={post.id} className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
+    console.log(post.id)
+    return (
+        <div className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
           <h2 className="text-3xl px-2 py-2 font-bold">{post.title}</h2>
-          {handlePostWithoutImage(post)}
+           {handlePostWithoutImage(post)} 
           <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Author: {post.author}</p>
           <p className="py-3 px-5 break-words">{post.content}</p>
 
@@ -84,11 +99,10 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
           </div>
           <div>
             <h3 className="text-2xl font-bold px-4 ">Comments</h3>
-            {handleCommentsInput(post.id, post)}
-          </div>
+            {/* {handleCommentsInput(post.id, post)} */}
+         </div>
         </div>
-        )
     )
 }
 
-export default FeedComponent
+export default SinglePost

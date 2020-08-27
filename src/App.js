@@ -8,6 +8,7 @@ import FeedComponent from './components/FeedComponent'
 import MostLiked from './components/MostLiked'
 import Navbar from './components/Navbar'
 import NewPost from './components/NewPost'
+import SinglePost from './components/SinglePost'
 import EditPost from './components/EditPost'
 
 const App = () => {
@@ -63,6 +64,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={FeedComponentWrapper}/>
           <Route path="/mostliked" component={MostLikedWrapper}/>
+          <Route path="/post/:id" component={SinglePost}/>
           <Route path="/edit/:id" component={EditPostWrapper}/>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>

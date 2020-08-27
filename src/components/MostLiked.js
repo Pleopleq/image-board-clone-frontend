@@ -1,4 +1,5 @@
 import React, { useState, useEffect }  from 'react'
+import { Link } from 'react-router-dom'
 import postsService from '../services/posts'
 const baseUrl = 'http://localhost:3001/'
 
@@ -16,14 +17,13 @@ const MostLiked = () => {
   
     
     const mostLikedPosts = 
-        allPosts.sort(function (a, b) {
+        allPosts.sort( (a, b) => {
         if (a.likes < b.likes) {
           return 1;
         }
         if (a.likes > b.likes) {
           return -1;
         }
-        // a must be equal to b
         return 0;
       })
 
@@ -42,6 +42,9 @@ const MostLiked = () => {
                 <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Posted by: {post.author}</p>
                 <p className="font-bold text-red-500 text-xl-mb-2 px-5">Likes: {post.likes}</p>
                 <p className="py-3 px-5 break-words">{post.content}</p>
+                <Link to={'/post/'+post.id} className="font-bold bg-indigo-200 hover:bg-indigo-400 text-center">
+                  <button>Go to this post</button>
+                </Link>
             </div>
         )
     )
