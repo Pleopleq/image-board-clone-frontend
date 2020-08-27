@@ -14,12 +14,11 @@ const SinglePost = () => {
     const fetchingPost = async () => {
         const result = await postsService.getOne(id)
         setPost(result)
-      }
+    }
 
     useEffect(() => {
         fetchingPost()
     }, [])
-
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -46,7 +45,7 @@ const SinglePost = () => {
       return
     }
 
-  const handleShowButtons = (post) => {
+  const handleShowButtons = () => {
       const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
       if (!user){
         return null
@@ -62,45 +61,47 @@ const SinglePost = () => {
       )
     } 
 
-    const handlePostWithoutImage = (post) => {
+    const handlePostWithoutImage = () => {
       if(post.postImage === undefined){
         return <br/>
       }
       return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
     }
 
-    const handleCommentsInput = (postId, post) => {
-        console.log(post)
-        console.log(postId)
-      if(!user){
-        return (
-          post.replies.map((comment, index) => 
-          <ul  key={index} className="px-4 divide-y divide-gray-400">
-            <li key={index} className="bg-indigo-100 font-light text-gray-700 py-2">
-              {comment.message} - <span className="font-bold">{comment.author}</span>
-            </li>
-          </ul>
-          ))
-      } else {
-        return <CommentSection id={postId}></CommentSection>
-      }
+    const handleCommentsInput = () => {
+      console.log(post)
+          if(!user){
+            if (post.replies){
+              return (
+                post.replies.map((comment, index) => 
+                <ul  key={index} className="px-4 divide-y divide-gray-400">
+                  <li key={comment.id} className="bg-indigo-100 font-light text-gray-700 py-2">
+                    {comment.message} - <span className="font-bold">{comment.author}</span>
+                  </li>
+                </ul>
+                )
+              )
+            }
+          } else {
+            return <CommentSection id={post.id}></CommentSection>
+          }
     }
-    console.log(post.id)
+
     return (
         <div className="max-w-sm rounded overflow-hidden shadow hover:shadow-xl flex flex-col container mx-auto py-3 px-4 mt-4 mb-5 bg-indigo-100">
           <h2 className="text-3xl px-2 py-2 font-bold">{post.title}</h2>
-           {handlePostWithoutImage(post)} 
+           {handlePostWithoutImage()} 
           <p className="font-bold text-purple-500 text-xl-mb-2 px-5">Author: {post.author}</p>
           <p className="py-3 px-5 break-words">{post.content}</p>
 
           <div className="flex items-end m-3">
-          <LikeButton post={post}></LikeButton>
-          {handleShowButtons(post)}
+            <LikeButton post={post}></LikeButton>
+            {handleShowButtons()}
           </div>
           <div>
             <h3 className="text-2xl font-bold px-4 ">Comments</h3>
-            {/* {handleCommentsInput(post.id, post)} */}
-         </div>
+              {handleCommentsInput()}
+          </div>
         </div>
     )
 }
