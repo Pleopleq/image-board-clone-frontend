@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import postsService from '../services/posts'
+import useSpinner from './useSpinner'
 
 const NewPost = ({allPosts}) => {
     const [user, setUser] = useState(null)
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [image, setImage] = useState(null)
+    const [spinner, showSpinner, hideSpinner] = useSpinner()
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -20,6 +22,10 @@ const NewPost = ({allPosts}) => {
     const onChangeHandler = (e) => {
         e.preventDefault()
         setImage(e.target.files[0])
+        showSpinner()
+        setTimeout(() => {
+            hideSpinner()
+        }, 2000)
     }
 
     const handleNewPost = async (e) => {
@@ -80,8 +86,8 @@ const NewPost = ({allPosts}) => {
                     <span className="mt-2 text-base leading-normal">Select a file</span>
                     <input type='file' className="hidden" onChange={onChangeHandler}/>
                 </label>
-                
             </div>
+            {spinner}
             <div className="flex items-center justify-center mt-8">
             <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Submit post 
