@@ -3,7 +3,7 @@ import postsService from '../services/posts'
 import LikeButton from './LikeButton'
 import CommentSection from './CommentSection'
 import { useParams, Link } from "react-router-dom";
-const baseUrl = 'http://localhost:3001/'
+const baseUrl = 'https://desolate-anchorage-55331.herokuapp.com/'
 
 
 const SinglePost = () => {

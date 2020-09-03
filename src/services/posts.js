@@ -1,11 +1,17 @@
 import axios from 'axios'
 const baseUrlPosts = 'http://localhost:3001/api/posts/'
-const baseUrlLikePost = 'http://localhost:3001/api/posts/likes/'
+const baseUrlLikePost = 'http://localhost:3001/api/likes/'
+const imageUploadURL = 'https://api.imgbb.com/1/upload?expiration=600&key=fb223360f4f362805066a7186f4b1056'
 
 let token = null
 
 const setToken = newToken => {
     token = `bearer ${newToken}`
+}
+
+const imageUpload = async image => {
+  const request = await axios.post(imageUploadURL, image)
+  return request.data
 }
 
 const createPost = async post => {
@@ -62,5 +68,6 @@ export default {
     deletePost,
     update,
     likeAPost,
+    imageUpload,
     setToken
 }

@@ -17,8 +17,12 @@ const App = () => {
   const [successClass, setSuccessClass] = useState(null)
 
   const fetchingPosts = async () => {
-    const result = await postsService.getAll()
-    setAllPost(result.reverse())
+    try {
+      const result = await postsService.getAll()
+      setAllPost(result.reverse())
+    } catch (error) {
+      console.log(error)
+    }
   }    
 
   const handleNewPostAdded = (addedPost) => {

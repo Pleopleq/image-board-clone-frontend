@@ -18,10 +18,22 @@ const NewPost = ({allPosts}) => {
         }
     }, [])
 
+    const uploadImage = async (image) => {
+        try {
+        const imageForm = new FormData()
+        imageForm.append('image', image)
+        const result = await postsService.imageUpload(imageForm)
+        console.log(result)
+        console.log(result.data.display_url)
+        setImage(result.data.display_url)
+        } catch (error) {
+          console.log(error)  
+        }  
+    }
 
-    const onChangeHandler = (e) => {
+    const onChangeHandler = async (e) => {
         e.preventDefault()
-        setImage(e.target.files[0])
+        await uploadImage(e.target.files[0]) 
         showSpinner()
         setTimeout(() => {
             hideSpinner()
@@ -31,12 +43,14 @@ const NewPost = ({allPosts}) => {
     const handleNewPost = async (e) => {
         e.preventDefault()
         try {
-            const data = new FormData() 
-            data.append('postImage', image)
-            data.append('title', title)
-            data.append('content', content)
-            const newPost = data
+            const newPost = {
+                title: title,
+                content: content,
+                postImage: image
+            }
+            console.log("NUEVO POST", newPost)
             const addedPost = await postsService.createPost(newPost)
+            console.log('added post', addedPost)
             setTitle('')
             setContent('')
             allPosts(addedPost)
@@ -84,7 +98,7 @@ const NewPost = ({allPosts}) => {
                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
                     <span className="mt-2 text-base leading-normal">Select a file</span>
-                    <input type='file' className="hidden" onChange={onChangeHandler}/>
+                    <input type='file' className="hidden" accept="image/*" onChange={onChangeHandler}/>
                 </label>
             </div>
             {spinner}
