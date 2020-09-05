@@ -3,7 +3,6 @@ import postsService from '../services/posts'
 import LikeButton from './LikeButton'
 import CommentSection from './CommentSection'
 import { useParams, Link } from "react-router-dom";
-const baseUrl = 'https://desolate-anchorage-55331.herokuapp.com/'
 
 
 const SinglePost = () => {
@@ -65,26 +64,25 @@ const SinglePost = () => {
       if(post.postImage === undefined){
         return <br/>
       }
-      return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
+      return <img src={post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
     }
 
     const handleCommentsInput = () => {
-      console.log(post)
-          if(!user){
-            if (post.replies){
-              return (
-                post.replies.map((comment, index) => 
-                <ul  key={index} className="px-4 divide-y divide-gray-400">
-                  <li key={comment.id} className="bg-indigo-100 font-light text-gray-700 py-2">
-                    {comment.message} - <span className="font-bold">{comment.author}</span>
-                  </li>
-                </ul>
-                )
+        if(!user){
+          if(post.replies){
+            return (
+              post.replies.map((comment, index) => 
+              <ul  key={index} className="px-4 divide-y divide-gray-400">
+                <li key={comment.id} className="bg-indigo-100 font-light text-gray-700 py-2">
+                  {comment.message} - <span className="font-bold">{comment.author}</span>
+                </li>
+              </ul>
               )
-            }
-          } else {
-            return <CommentSection id={post.id}></CommentSection>
+            )
           }
+        } else {
+          return <CommentSection id={post.id}></CommentSection>
+        }
     }
 
     return (

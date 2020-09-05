@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrlComments = 'http://localhost:3001/api/replies/'
+const baseUrlComments = 'https://desolate-anchorage-55331.herokuapp.com/api/replies/'
 
 let token = null
 

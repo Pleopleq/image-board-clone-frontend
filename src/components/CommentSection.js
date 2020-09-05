@@ -67,7 +67,7 @@ const CommentSection = ({ id }) => {
 
     const handleDeleteCommentSubmit = async (id) => {
       try {
-        const result = window.confirm('Do you really want to delete this post?')
+        const result = window.confirm('Do you really want to delete this comment?')
         if(result){
             await commentService.deleteComment(id) 
             setAllComments(await commentService.getAll(postId))

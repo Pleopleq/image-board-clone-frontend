@@ -1,7 +1,6 @@
 import React, { useState, useEffect }  from 'react'
 import { Link } from 'react-router-dom'
 import postsService from '../services/posts'
-const baseUrl = 'http://localhost:3001/'
 
 const MostLiked = () => {
     const [allPosts, setAllPost] = useState([])
@@ -31,7 +30,7 @@ const MostLiked = () => {
     if(post.postImage === undefined){
         return <br/>
     }
-    return <img src={baseUrl+post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
+    return <img src={post.postImage} className="px-2 object-cover mb-5" alt="Post thumbnail"></img>
     }
 
     return (

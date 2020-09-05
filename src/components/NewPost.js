@@ -33,8 +33,8 @@ const NewPost = ({allPosts}) => {
 
     const onChangeHandler = async (e) => {
         e.preventDefault()
-        await uploadImage(e.target.files[0]) 
         showSpinner()
+        await uploadImage(e.target.files[0]) 
         setTimeout(() => {
             hideSpinner()
         }, 2000)
@@ -48,9 +48,7 @@ const NewPost = ({allPosts}) => {
                 content: content,
                 postImage: image
             }
-            console.log("NUEVO POST", newPost)
             const addedPost = await postsService.createPost(newPost)
-            console.log('added post', addedPost)
             setTitle('')
             setContent('')
             allPosts(addedPost)

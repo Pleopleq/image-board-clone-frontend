@@ -1,6 +1,6 @@
 import axios from 'axios'
-const baseUrlPosts = 'http://localhost:3001/api/posts/'
-const baseUrlLikePost = 'http://localhost:3001/api/likes/'
+const baseUrlPosts = 'https://desolate-anchorage-55331.herokuapp.com/api/posts/'
+const baseUrlLikePost = 'https://desolate-anchorage-55331.herokuapp.com/api/posts/likes/'
 const imageUploadURL = 'https://api.imgbb.com/1/upload?expiration=600&key=fb223360f4f362805066a7186f4b1056'
 
 let token = null
