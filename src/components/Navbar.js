@@ -6,7 +6,6 @@ const handleLogOut = () => {
   window.location.reload()
 }
 
-
 const UserGreeting = ({ user }) => {
   return (
     <>

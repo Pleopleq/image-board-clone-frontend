@@ -61,6 +61,10 @@ const App = () => {
     return <EditPost updateFeed={setAllPost}></EditPost>
   }
 
+  const SinglePostWrapper = () => {
+    return <SinglePost updateFeed={setAllPost}></SinglePost>
+  }
+
   return (
     <Router>
     <div className="App">
@@ -68,7 +72,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={FeedComponentWrapper}/>
           <Route path="/mostliked" component={MostLikedWrapper}/>
-          <Route path="/post/:id" component={SinglePost}/>
+          <Route path="/post/:id" component={SinglePostWrapper}/>
           <Route path="/edit/:id" component={EditPostWrapper}/>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>

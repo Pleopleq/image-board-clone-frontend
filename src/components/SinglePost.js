@@ -2,21 +2,27 @@ import React, { useEffect, useState } from 'react'
 import postsService from '../services/posts'
 import LikeButton from './LikeButton'
 import CommentSection from './CommentSection'
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 
 
-const SinglePost = () => {
+const SinglePost = ({ updateFeed }) => {
     const [post, setPost] = useState([])
     const { id } = useParams()
     const [user, setUser] = useState(null)
+    const history = useHistory()
 
-    const fetchingPost = async () => {
+    const fetchingPosts = async () => {
+      const result = await postsService.getAll()
+      updateFeed(result.reverse())
+  }    
+
+    const fetchingSinglePost = async () => {
         const result = await postsService.getOne(id)
         setPost(result)
     }
 
     useEffect(() => {
-        fetchingPost()
+        fetchingSinglePost()
     }, [])
 
     useEffect(() => {
@@ -31,15 +37,9 @@ const SinglePost = () => {
     const handleDeletePost = async (id) => {
       const result = window.confirm('Do you really want to delete this post?')
       if(result){
-        const resultAsync = Promise.all(
-          await postsService.deletePost(id),
-          /* await handleDeletedPost() */
-        )
-        
-        if(resultAsync){
-/*           success('Post has been deleted.', "flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3 mx-24 rounded") 
- */          console.log('adsfasdf')
-        }
+        await postsService.deletePost(id)
+        fetchingPosts()
+        return history.push('/')
       }
       return
     }

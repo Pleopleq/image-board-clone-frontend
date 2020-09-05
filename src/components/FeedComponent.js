@@ -8,6 +8,7 @@ const FeedComponent = ({allPosts, deletedPost, success}) => {
     const [user, setUser] = useState(null)
     const handleDeletedPost = deletedPost
 
+
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
       if(loggedUserJSON) {
