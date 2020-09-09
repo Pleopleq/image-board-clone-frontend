@@ -16,17 +16,6 @@ const EditPost = ({ updateFeed }) => {
         updateFeed(result.reverse())
     }    
 
-    const fetchingOnePost = async () => {
-        try {
-            const result = await postsService.getOne(id)
-            delete result.postImage
-            delete result.replies
-    
-            setOnePost(result)
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     const handleUpdatePost = async (e) => {
         e.preventDefault()
@@ -56,8 +45,19 @@ const EditPost = ({ updateFeed }) => {
       }, [])
     
     useEffect(() => {
+        const fetchingOnePost = async () => {
+            try {
+                const result = await postsService.getOne(id)
+                delete result.postImage
+                delete result.replies
+        
+                setOnePost(result)
+            } catch (error) {
+                console.error(error)
+            }
+        }
         fetchingOnePost()
-    }, [])
+    }, [id])
 
     return (       
     <form onSubmit={handleUpdatePost}>

@@ -16,14 +16,13 @@ const SinglePost = ({ updateFeed }) => {
       updateFeed(result.reverse())
   }    
 
-    const fetchingSinglePost = async () => {
+    useEffect(() => {
+      const fetchingSinglePost = async () => {
         const result = await postsService.getOne(id)
         setPost(result)
-    }
-
-    useEffect(() => {
-        fetchingSinglePost()
-    }, [])
+      }
+    fetchingSinglePost()
+    }, [id])
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
