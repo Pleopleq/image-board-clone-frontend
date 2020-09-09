@@ -19,7 +19,7 @@ const App = () => {
   const fetchingPosts = async () => {
     try {
       const result = await postsService.getAll()
-      setAllPost(result.reverse())
+        setAllPost(result.reverse())
     } catch (error) {
       console.log(error)
     }

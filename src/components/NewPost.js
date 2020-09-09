@@ -23,8 +23,6 @@ const NewPost = ({allPosts}) => {
         const imageForm = new FormData()
         imageForm.append('image', image)
         const result = await postsService.imageUpload(imageForm)
-        console.log(result)
-        console.log(result.data.display_url)
         setImage(result.data.display_url)
         } catch (error) {
           console.log(error)  

@@ -5,6 +5,7 @@ import CommentSection from './CommentSection'
 import { useParams, Link, useHistory } from "react-router-dom";
 
 
+
 const SinglePost = ({ updateFeed }) => {
     const [post, setPost] = useState([])
     const { id } = useParams()
@@ -14,14 +15,16 @@ const SinglePost = ({ updateFeed }) => {
     const fetchingPosts = async () => {
       const result = await postsService.getAll()
       updateFeed(result.reverse())
-  }    
+    }    
 
     useEffect(() => {
+      const abortController = new AbortController()
       const fetchingSinglePost = async () => {
         const result = await postsService.getOne(id)
         setPost(result)
       }
     fetchingSinglePost()
+    return () => abortController.abort()
     }, [id])
 
     useEffect(() => {
@@ -79,6 +82,8 @@ const SinglePost = ({ updateFeed }) => {
               )
             )
           }
+        } else if(!post.replies){
+          return <br></br> 
         } else {
           return <CommentSection id={post.id}></CommentSection>
         }

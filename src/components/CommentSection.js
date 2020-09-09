@@ -14,7 +14,6 @@ const CommentSection = ({ id }) => {
     const [isUpdate, setIsUpdate] = useState(false)
     let postId = id
 
-
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         if(loggedUserJSON) {
@@ -23,12 +22,21 @@ const CommentSection = ({ id }) => {
           commentService.setToken(user.token)
         }
       }, [])
-
+    
     useEffect(() => {
-        commentService.getAll(postId).then(posts => {
-            setAllComments(posts)
-        })
+      const abortController = new AbortController()
+        const getComments = async () => {
+          try {
+          const allComments = await commentService.getAll(postId)
+          setAllComments(allComments)
+        } catch (error) {
+          throw error;
+        }
+      } 
+    getComments()
+    return () => abortController.abort()
     }, [postId])
+
 
     const handleCommentSubmit = async (e) => {
       e.preventDefault()
