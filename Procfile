@@ -1,0 +1,1 @@
+web: npm run watch:css && node scripts/start.js

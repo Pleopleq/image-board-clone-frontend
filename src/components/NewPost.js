@@ -18,17 +18,23 @@ const NewPost = ({allPosts}) => {
         }
     }, [])
 
-    const uploadImage = async (image) => {
+    const uploadImage = async (file) => {
         try {
-        const imageForm = new FormData()
-        imageForm.append('image', image)
-        const result = await postsService.imageUpload(imageForm)
-        setImage(result.data.display_url)
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setImage(reader.result)
+        }
+        reader.onabort = function (error) {
+            console.error(error)
+        }
+        reader.onerror = function (error) {
+            console.error('Error: ', error);
+        }
         } catch (error) {
-          console.log(error)  
+          console.error(error)  
         }  
     }
-
     const onChangeHandler = async (e) => {
         e.preventDefault()
         showSpinner()
